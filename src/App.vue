@@ -1,4 +1,5 @@
 <template>
+<div>
   <div>
     <div id="header">
       <section class="top ">
@@ -28,23 +29,34 @@
         </el-menu>
       </section>
     </div>
-    <router-view></router-view>
+    <div class='mainContent'>
+      <router-view></router-view>
+    </div>
   </div>
-
+  <pagefooter></pagefooter>
+</div>
 </template>
 
 <script>
+import pagefooter from "./components/pagefooter"
   export default {
     name: 'App',
     data() {
       return {
-        activeIndex: '0'
+        activeIndex: '1'
       };
     },
     methods: {
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key);
+        switch(key){
+          case '1':this.$router.push('/home')
+          break;
+        }
       }
+    },
+    components:{
+      pagefooter
     }
   }
 
@@ -57,6 +69,10 @@
   #header .top {
     height: 192px;
     background: #ffffff url('/static/images/bg_top.jpg')center repeat-x;
+  }
+  .mainContent{
+    display: flow-root;
+    margin-bottom: 100px;
   }
 
 </style>

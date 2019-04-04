@@ -27587,7 +27587,7 @@
     .el-breadcrumb__inner {
       color: #606266; }
       .el-breadcrumb__inner.is-link, .el-breadcrumb__inner a {
-        font-weight: bold;
+        /* font-weight: bold; */
         text-decoration: none;
         -webkit-transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
         transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -44295,4 +44295,7 @@
   line-height: 1.1;
   color: inherit;
   font-family: Helvetica Neue,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+}
+.content-area{
+  width: 1050px;
 }

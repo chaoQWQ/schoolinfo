@@ -5,6 +5,7 @@
         <img class="carousel-image" :src="item.src">
       </el-carousel-item>
     </el-carousel>
+   
 
 </template>
 
