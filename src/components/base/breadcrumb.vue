@@ -14,7 +14,7 @@ export default {
           level1:'全国比赛',
           level1_to_url:'',
           level2:'活动详情',
-          level2_to_url:'/detail'
+          level2_to_url:''
         }
       }
     }

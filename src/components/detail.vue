@@ -2,7 +2,7 @@
   <div>
     <breadcrumb></breadcrumb>
     <div class="content-area">
-      <mainContent></mainContent>
+      <mainContent :mainContentData="mainContentData"></mainContent>
       <comment :comments="commentdata"></comment>
     </div>
   </div>
@@ -22,11 +22,26 @@ export default {
         },
     data(){
         return{
-            commentdata:[]
+            commentdata:[],
+            mainContentData:{}
         }
+    },
+    methods:{
+      getCompetitionDetailContent(id){
+        this.$http.get('/api/compinfo/getDetail',{
+          params:{
+            id:id
+          }
+        }).then(resp=>{
+          this.mainContentData= resp.data.data
+          console.log(this.mainContentData)
+        })
+      }
     },
     created(){
         this.commentdata=CommentData.comment.data;
+        this.getCompetitionDetailContent(this.$route.params.id);
+        console.log(this.$route.params.id);
     }
 }
 </script>

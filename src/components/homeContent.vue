@@ -8,30 +8,30 @@
           <div class="competition_country">
             <infobox 
             topname='校内比赛'
-            tourl='http://localhost:9090/#/detail'
-            :infolist="infodata"
+            tourl='/#/competition'
+            :infolist="infodata[0]"
             >
             </infobox>
           </div>
           <div class="competition_school">
             <infobox
             topname='全国比赛'
-            tourl='localhost:9090/detail'
-            :infolist="infodata">
+            tourl='/#/competition'
+            :infolist="infodata[1]">
             </infobox>
           </div>
         </div>
         <div>
           <div class="competition_country">
             <infobox
-            topname='考证考试信息'
+            topname='志愿服务'
             tourl='localhost:9090/detail'
             :infolist="infodata">
             </infobox>
           </div>
           <div class="competition_school">
             <infobox
-            topname='招聘信息'
+            topname='社团活动'
             tourl='localhost:9090/detail'
             :infolist="infodata">
             </infobox>
@@ -40,7 +40,7 @@
         
       </div>
       <aside class="sidebar">
-        <baseinfo-module></baseinfo-module>
+        <dynamicInfo></dynamicInfo>
       </aside>
       <!-- <el-row>
         <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" style="border:4px solid #01010112;">
@@ -55,41 +55,31 @@
 </template>
 <script>
 import carousel from "./base/carousel.vue";
-import baseinfoModule from "./base/dynamicInfo";
+import dynamicInfo from "./base/dynamicInfo";
 import infobox from"./base/infobox";
 export default {
     name:'home',
         data(){
         return {
-            infodata:[
-                {
-                title:'长春市委书记王君正赴新疆任职'
-            },
-            {
-                title:'中国GDP万亿俱乐部城市扩容 这地出乎意料'
-            },
-            {
-                title:'4家中企入列全球芯片10强买家榜 华为成“探花”'
-            },
-            {
-                title:'美国两艘军舰今日再闯中国南沙美济礁12海里'
-            },
-            {
-                title:'成都20亿造江南水乡成空城：游客稀少 商铺关门(图)'
-            },
-            {
-                title:'美国两艘军舰今日再闯中国南沙美济礁12海里123'
-            },
-            {
-                title:'美国两艘军舰今日再闯中国南沙美济礁12海里123'
-            }
-            ]
+            infodata:[]
         }
     },
     components:{
         carousel,
-        baseinfoModule,
+        dynamicInfo,
         infobox
+    },
+    methods:{
+      getSchoolCompetition(){
+        this.$http.get('/api/compinfo/getTitle')
+          .then(resp=>{
+            this.infodata=resp.data.data
+            console.log("islogin:"+this.$store.getters.isLogin)
+          })
+      }
+    },
+    created:function(){
+      this.getSchoolCompetition()
     }
 }
 </script>

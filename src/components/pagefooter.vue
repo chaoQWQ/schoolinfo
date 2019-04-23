@@ -1,8 +1,8 @@
 <template>
     <footer class="footer">
 		<div class="footerbanner">
-			<h1 style="margin-top: 20px;font-style: italic;font-size: -webkit-xxx-large;color: slategrey;">吹最牛的逼</h1>
-    		<h1 style="margin-left: 20px;font-style: italic;font-size: -webkit-xxx-large;color: slategrey;">做最骚的事</h1>
+			<h1 style="margin-top: 20px;font-style: italic;font-size: -webkit-xxx-large;color: slategrey;">好好学习</h1>
+    		<h1 style="margin-left: 20px;font-style: italic;font-size: -webkit-xxx-large;color: slategrey;">天天向上</h1>
 		</div>
 		<div class="clear">
 			<p>Copyright©2016-2018 xxxx 保留所有权利 ·

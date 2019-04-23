@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import competition from '../components/competitionConten.vue'
+import competition from '../components/competition/competitionConten.vue'
 import home from '../components/homeContent.vue'
 import detail from '../components/detail.vue'
 
@@ -20,10 +20,14 @@ export default new Router({
     {
       path:'/competition',
       name:'competition',
-      component:competition
+      component:competition,
+      meta:{
+        requireLogin:true,
+        permission:"competition"
+      }
     },
     {
-      path:'/detail',
+      path:'/detail/:id',
       name:'detail',
       component:detail
     }

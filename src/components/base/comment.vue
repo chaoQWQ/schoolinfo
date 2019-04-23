@@ -7,8 +7,8 @@
   </div>
     <!-- 发表评论 -->
     <div>
-        <div style="margin-bottom: 10px;margin-left: 5px;">
-          <strong>发布评论</strong>
+        <div style="margin-bottom: 10px;margin-left: 10px;">
+          <strong style="">发布评论</strong>
         </div>
         <div style="margin:0 100px 0 10px;" class="input-wrapper">
           <el-input class="gray-bg-input"
@@ -147,9 +147,6 @@
         }
         this.showItemId = item.id
       }
-    },
-    created() {
-      console.log(this.comments)
     }
   }
 </script>

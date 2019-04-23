@@ -3965,16 +3965,17 @@
       color: #409EFF; }
   .el-dialog__title {
     line-height: 24px;
-    font-size: 18px;
-    color: #303133; }
+    font-size: 22px;
+    font-weight: bold;
+    color: #f44336b8; }
   .el-dialog__body {
-    padding: 30px 20px;
+    padding: 30px 20px 10px 10px;
     color: #606266;
     font-size: 14px; }
   .el-dialog__footer {
     padding: 20px;
     padding-top: 10px;
-    text-align: right;
+    text-align: center;
     -webkit-box-sizing: border-box;
     box-sizing: border-box; }
   .el-dialog--center {
@@ -9218,7 +9219,7 @@
       -webkit-box-shadow: 0 0 2px 2px #409EFF;
       box-shadow: 0 0 2px 2px #409EFF; }
   .el-radio__label {
-    font-size: 14px;
+    font-size: 15px;
     padding-left: 10px; }
 
 /* BEM support Func
@@ -27895,7 +27896,7 @@
     text-align: right;
     vertical-align: middle;
     float: left;
-    font-size: 14px;
+    font-size: 17px;
     color: #606266;
     line-height: 40px;
     padding: 0 12px 0 0;
@@ -32932,6 +32933,8 @@
 /* BEM
  -------------------------- */
 .el-row {
+  outline: none;
+  border: none;
   position: relative;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
@@ -44298,4 +44301,8 @@
 }
 .content-area{
   width: 1050px;
+  float: left;
+}
+a{
+  text-decoration: none;
 }
