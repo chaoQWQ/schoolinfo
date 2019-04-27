@@ -75,7 +75,7 @@
     >
       <!-- 登录 -->
       <div v-if="signFormVisible==false">
-        <el-form :model="form" :rules="rules" ref="loginform" @keyup.enter.native="login('loginform')">
+        <el-form label-position="right" :model="form" :rules="rules" ref="loginform" @keyup.enter.native="login('loginform')">
           <el-form-item label="用户名:" label-width="80px" prop="username">
             <el-input placeholder="请输入用户名" v-model="form.username" autocomplete="off"></el-input>
           </el-form-item>
@@ -105,7 +105,7 @@
 
       <!-- 注册 -->
       <div v-if="signFormVisible">
-        <el-form :model="s_form" :rules="s_rules" ref="signform">
+        <el-form label-position="right" :model="s_form" :rules="s_rules" ref="signform">
           <el-form-item label="用户名:" label-width="100px" prop="s_username">
             <el-input v-model="s_form.s_username" autocomplete="off"></el-input>
           </el-form-item>
@@ -234,7 +234,7 @@ export default {
       return this.$store.getters.isLogin;
     },
     currentUser() {
-      return this.$store.state.currentUser;
+      return this.$store.getters.currentUser;
     }
   },
   methods: {
@@ -248,7 +248,7 @@ export default {
           this.$router.push("/home");
           break;
         case "2":
-          this.$router.push("/home");
+          this.$router.push("/societyActivity");
           break;
         case "3":
           this.$router.push("/home");

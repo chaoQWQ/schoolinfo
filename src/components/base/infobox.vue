@@ -5,14 +5,14 @@
         <ul>
             <li v-for="(item,index) in infolist" :key="index">
                 <div v-if="index==0" class="item first">
-                    <a :href="'/#/detail/'+item.id"><img :src="item.coverImage!=null?item.coverImage:'../../../static/images/moren.gif'" alt="图片不存在" onerror="this.src='../../../static/images/moren.gif';this.onerror=null'">
+                    <a :href="'/#/compDetail/'+item.id"><img :src="item.coverImage!=null?item.coverImage:'../../../static/images/moren.gif'" alt="图片不存在" onerror="this.src='../../../static/images/moren.gif';this.onerror=null'">
                       <h3>{{item.title}}</h3>
                     </a>
                     <p id="zaiyao">{{item.summary}}</p>
                       <p style="color: #999;margin: 0;margin-right: 10px;text-align: right;">{{item.createTime}}</p>
                 </div>
                 <div v-else class="item">
-                    <a :href="'/#/detail/'+item.id"><h3>{{item.title}}</h3></a>
+                    <img style="float:left" src="/static/images/hot.gif"><a :href="'/#/compDetail/'+item.id"><h3>{{item.title}}</h3></a>
                 </div>
             </li>
         </ul>

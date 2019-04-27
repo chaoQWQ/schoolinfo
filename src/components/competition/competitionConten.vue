@@ -1,5 +1,6 @@
 <template>
 <div>
+  <!-- <breadcrumb></breadcrumb> -->
   <div class="content-area">
     <div class="top_tit">
       <h1>比赛信息</h1>
@@ -40,7 +41,7 @@
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form>
     </div>
-
+    <p v-if="totalNumbers==0" style="    text-align: center;font-size: x-large;font-style: italic;color: darkgrey;">查询结果为空</p>
     <infoItem :infoItemData="infoitemData"></infoItem>
     <div style="text-align: center">
       <el-pagination background 
@@ -56,14 +57,19 @@
 
   <div class="side">
     <div class="fabu">
-      <a href="http://www.52jingsai.com/games" target="_blank"></a>
+      <router-link :to="{name:'addComp'}"></router-link>
     </div>
   </div>
-
+  <el-tooltip placement="top" content="回到顶部">
+    <back-to-top/>
+  </el-tooltip>
+  
 </div>
 </template>
 <script>
 import infoItem from "../base/infoItem";
+import breadcrumb from "../base/breadcrumb";
+import backToTop from "../base/backToTop"
 export default {
   name: "competition",
   data() {
@@ -83,7 +89,9 @@ export default {
     };
   },
   components: {
-    infoItem
+    infoItem,
+    breadcrumb,
+    backToTop
   },
   methods: {
     onSubmit() {
@@ -140,6 +148,11 @@ export default {
 }
 .fabu:hover {
     background-image: url("/static/images/fb2.png");
+    cursor: pointer;
+}
+.fabu a {
+    display: block;
+    height: 104px;
 }
 .side{
   width: 300px;

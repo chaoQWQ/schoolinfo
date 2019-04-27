@@ -5,7 +5,7 @@
     		<h1 style="margin-left: 20px;font-style: italic;font-size: -webkit-xxx-large;color: slategrey;">天天向上</h1>
 		</div>
 		<div class="clear">
-			<p>Copyright©2016-2018 xxxx 保留所有权利 ·
+			<p>Copyright©2019-9999 chaoqwq 保留所有权利 ·
 				<a href="http://tongji.baidu.com" target="_blank" title="" data-toggle="tooltip" data-placement="right" rel="external nofollow" data-original-title="点击查看张亚东博客网站统计详情"><i class="fa fa-bar-chart-o fa-fw fa-spin"></i>网站统计</a>
 			</p>
 		</div>

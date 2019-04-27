@@ -1,22 +1,23 @@
 <template>
-    <el-breadcrumb style="margin-bottom:5px" separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{path:data_breadcrumb.level1_to_url}">{{data_breadcrumb.level1}}</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{path:data_breadcrumb.level2_to_url}">{{data_breadcrumb.level2}}</el-breadcrumb-item>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right"  >
+      <el-breadcrumb-item v-for="(item,index) in breadcumb" :key="index" style="margin-bottom:5px" :to="{ path: item.path }">{{item.name}}</el-breadcrumb-item>
     </el-breadcrumb>
+  </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     name:'breadcrumb',
     data(){
       return{
-        data_breadcrumb:{
-          level1:'全国比赛',
-          level1_to_url:'',
-          level2:'活动详情',
-          level2_to_url:''
-        }
+        
       }
+    },
+    computed: {
+        breadcumb(){
+          return this.$store.getters.breadcumb.list
+        }
     }
 }
 </script>

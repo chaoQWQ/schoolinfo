@@ -31,9 +31,13 @@ router.afterEach((to,from)=>{
   document.documentElement.scrollTop = 0; 
 })
 router.beforeEach((to,from,next) => {
+  //更新面包屑
+  if (to.meta.navList) {
+    let list = to.meta.navList
+    store.commit('changeBreadcumb', { list })
+  }
   //获取用户登录成功后储存的登录标志
   let getFlag = localstorageUtil.get("Flag");
-
   //如果登录标志存在且为isLogin，即用户已登录
   if(getFlag === "isLogin"){
 

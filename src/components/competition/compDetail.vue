@@ -9,10 +9,10 @@
 
 </template>
 <script>
-import comment from './base/comment'
-import breadcrumb from './base/breadcrumb'
-import mainContent from './base/mainContent'
-import * as CommentData from './mockdata.js'
+import comment from '../base/comment'
+import breadcrumb from '../base/breadcrumb'
+import mainContent from '../base/mainContent'
+import * as CommentData from '../mockdata.js'
 export default {
     name:"detailPage",
     components:{
@@ -34,14 +34,12 @@ export default {
           }
         }).then(resp=>{
           this.mainContentData= resp.data.data
-          console.log(this.mainContentData)
         })
       }
     },
     created(){
         this.commentdata=CommentData.comment.data;
         this.getCompetitionDetailContent(this.$route.params.id);
-        console.log(this.$route.params.id);
     }
 }
 </script>

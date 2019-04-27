@@ -3,16 +3,17 @@
   <ul>
     <li v-for="(item,index) in infoItemData" :key="index" class="article-item">
       <h2 class="article-title">
-        <a :href="'/#/detail/'+item.id" @click="jump(item)">{{item.title}}</a>
+        <a :href="'/#/compDetail/'+item.id" >{{item.title}}</a>
       </h2>
       <div class="article-review">
         <!-- <img :src="item.coverImage" style="width: 200px;height: 150px;"> -->
-				<img style="width: 200px;height: 150px;" :src="item.coverImage!=null?item.coverImage:'../../../static/images/moren.gif'" alt="图片不存在" onerror="this.src='../../../static/images/moren.gif';this.onerror=null'">
+				<img style="width: 200px;height: 150px;" :src="item.coverImage!=null?item.coverImage:'../../../static/images/moren2.gif'" alt="图片不存在" onerror="this.src='../../../static/images/moren.gif';this.onerror=null'">
         <div class="article-abstract">
           <h4>{{ item.summary }}</h4>
         </div>
       </div>
       <div class="view-msg">
+        <span>{{item.createTime.slice(0,-3)}}</span>&nbsp&nbsp
         <span class="icon-eye"></span>
         <span class="pv">{{ item.viewNumbers }}</span>
         <span class="icon-commenting-o"></span>

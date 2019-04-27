@@ -83,13 +83,15 @@ export default new Vuex.Store({
             "id": 19
         }],
         isLogin:false,
+        breadcumb: [],
         currentUser:{}
 
   },
   getters: {
     //获取登录状态
     isLogin: state => state.isLogin,
-    currentUser: state => state.currentUser
+    currentUser: state => state.currentUser,
+    breadcumb: state => state.breadcumb
   },
 
   // 设置属性状态
@@ -100,7 +102,10 @@ export default new Vuex.Store({
     },
     setCurrentUser(state,user){
       state.currentUser = user
-    }
+    },
+    changeBreadcumb (state, value) {
+      state.breadcumb = value
+    },
   },
 
   // 应用mutations
