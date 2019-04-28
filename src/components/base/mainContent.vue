@@ -12,22 +12,39 @@
     </div>
     </div>
     <div id="art_content" v-html="mainContentData.content"></div> 
-    <p style="color:red">联系方式：</p>
-    <p>联系人：{{mainContentData.contactName}}</p>
-    <p>联系人电话：{{mainContentData.contactTelNumber}}</p>
-    <p v-if="mainContentData.webUrl">官网地址：{{mainContentData.webUrl}}</p>
-    <p style="color:red">附件：</p>
-    <div style="margin-left: 15px;margin-bottom: 5px;" v-for="(item,index) in JSON.parse(mainContentData.attachUrl)" :key="index">
-      <a :href="item.url">{{item.name}}</a>
+    <div v-if="dtype==1">
+      <p style="color:red">联系方式：</p>
+      <p>联系人：{{mainContentData.contactName}}</p>
+      <p>联系人电话：{{mainContentData.contactTelNumber}}</p>
+      <p v-if="mainContentData.webUrl">官网地址：{{mainContentData.webUrl}}</p>
+      <div v-if="mainContentData.attachUrl">
+        <p style="color:red">附件：</p>
+        <div style="margin-left: 15px;margin-bottom: 5px;" v-for="(item,index) in JSON.parse(mainContentData.attachUrl)" :key="index">
+          <a :href="item.url">{{item.name}}</a>
+        </div>        
+      </div>
+
     </div>
   </div>
 </template>
 <script>
+import { type } from 'os';
   export default {
     name: 'mainContent',
     props:[
-        'mainContentData'
+        'mainContentData',
+        'dtype'
     ]
+    // computed:{
+    //   attachFiles(){
+    //     if(mainContentData.attachUrl){
+    //       return JSON.parse(mainContentData.attachUrl);
+    //     }else{
+    //       ret
+    //     }
+        
+    //   }
+    // }
   }
 
 </script>

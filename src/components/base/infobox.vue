@@ -5,7 +5,7 @@
         <ul>
             <li v-for="(item,index) in infolist" :key="index">
                 <div v-if="index==0" class="item first">
-                    <a :href="'/#/compDetail/'+item.id"><img :src="item.coverImage!=null?item.coverImage:'../../../static/images/moren.gif'" alt="图片不存在" onerror="this.src='../../../static/images/moren.gif';this.onerror=null'">
+                    <a :href="'/#/compDetail/'+item.id"><img :src="item.coverImage!=null?item.coverImage:'../../../static/images/moren.png'" alt="图片不存在" onerror="this.src='../../../static/images/moren.gif';this.onerror=null'">
                       <h3>{{item.title}}</h3>
                     </a>
                     <p id="zaiyao">{{item.summary}}</p>
@@ -54,8 +54,11 @@ export default {
 .infobox a{
     text-decoration: none;
     display: block;
-    color: steelblue;
+    color: black;
     padding: 0px 10px 0px 2px;
+}
+.infobox a:hover{
+  color: steelblue
 }
 .infobox ul{
     list-style: none;

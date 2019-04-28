@@ -18,6 +18,11 @@
               <el-radio label="国级"></el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item label="比赛类型" prop="type">
+            <el-select v-model="ruleForm.type"  collapse-tags placeholder="请选择">
+              <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.name"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="联系人" prop="contactName">
             <el-input v-model="ruleForm.contactName"></el-input>
           </el-form-item>
@@ -91,12 +96,14 @@ export default {
    data() {
       return {
         disabled: false,
+        options: this.$store.state.compTypeList,
         avatarfileList:[],
         attachFileList:[],
         ruleForm: {
           title: '',
           summary:'',
           scope:'校级',
+          type:'',
           coverImage:'',
           contactName: '',
           contactTelNumber: '',
@@ -113,6 +120,9 @@ export default {
           summary: [
             { required: true, message: '请输入比赛简介', trigger: 'blur' },
             { min:10, max: 100, message: '请输入至少10个字符，不超过100 个字符', trigger: 'blur' }
+          ],
+          type:[
+            {required:true,message:'请选择比赛类型',trigger:'blur'}
           ],
           contactName:[
             {required:true,message:'请输入相关联系人姓名',trigger:'blur'}

@@ -5,6 +5,7 @@
           <carousel></carousel>
         </div>
         <div>
+          <h2><span>热门比赛</span></h2>
           <div class="competition_country">
             <infobox 
             topname='校内比赛'
@@ -22,6 +23,7 @@
           </div>
         </div>
         <div>
+          <h2><span>最新活动</span></h2>
           <div class="competition_country">
             <infobox
             topname='志愿服务'
@@ -112,6 +114,10 @@ export default {
   margin-bottom: 15px;
   margin-right: 0px;
   position: relative;
+}
+h2 span{
+    border-left: 3px solid #393;
+    padding: 0 20px;
 }
 </style>
 

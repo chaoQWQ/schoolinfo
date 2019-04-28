@@ -6,6 +6,7 @@ import compDetail from '../components/competition/compDetail.vue'
 import addComp from '../components/competition/addComp.vue'
 import addSocietyActivity from '../components/society/addSocietyActivity.vue'
 import societyActivity from '../components/society/societyActivity.vue'
+import actDetail from '../components/society/actDetail.vue'
 import localData from '../utils/local-data'
 Vue.use(Router)
 
@@ -58,14 +59,14 @@ export default new Router({
         navList:localData.routerBreadcrumb.societyActivityList.list
       }
     },
-    // {
-    //   path:'/s-detail/:id',
-    //   name:'societyActivityDetail',
-    //   component:detail,
-    //   meta:{
-    //     navList:localData.routerBreadcrumb.societyActivityDetail.list
-    //   }
-    // },
+    {
+      path:'/actDetail/:id',
+      name:'actDetail',
+      component:actDetail,
+      meta:{
+        navList:localData.routerBreadcrumb.societyActivityDetail.list
+      }
+    },
     {
       path:'/addSocietyActivity',
       name:'addSocietyActivity',

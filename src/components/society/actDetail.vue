@@ -2,7 +2,7 @@
   <div>
     <breadcrumb></breadcrumb>
     <div class="content-area">
-      <mainContent :mainContentData="mainContentData" dtype=1></mainContent>
+      <mainContent :mainContentData="mainContentData" dtype=2></mainContent>
       <comment :comments="commentdata"></comment>
     </div>
     <el-tooltip placement="top" content="回到顶部">
@@ -18,7 +18,7 @@ import mainContent from '../base/mainContent'
 import backToTop from "../base/backToTop"
 import * as CommentData from '../mockdata.js'
 export default {
-    name:"detailPage",
+    name:"actDetail",
     components:{
         comment,
         mainContent,
@@ -32,8 +32,8 @@ export default {
         }
     },
     methods:{
-      getCompetitionDetailContent(id){
-        this.$http.get('/api/compinfo/getDetail',{
+      getactDetailContent(id){
+        this.$http.get('/api/society/getDetail',{
           params:{
             id:id
           }
@@ -44,7 +44,7 @@ export default {
     },
     created(){
         this.commentdata=CommentData.comment.data;
-        this.getCompetitionDetailContent(this.$route.params.id);
+        this.getactDetailContent(this.$route.params.id);
     }
 }
 </script>

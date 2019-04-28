@@ -14,9 +14,9 @@
           <el-form-item label="活动地点" prop="address">
             <el-input v-model="actForm.address"></el-input>
           </el-form-item>
-          <el-form-item label="活动举行时间" prop="startTime">
+          <el-form-item label="活动举行时间" prop="validTime">
              <el-date-picker
-                v-model="actForm.startTime"
+                v-model="actForm.validTime"
                 type="datetimerange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -70,15 +70,18 @@ export default {
    data() {
       return {
         disabled: false,
+        
         avatarfileList:[],
         actForm: {
           title: '',
           summary:'',
           startTime:'',
+          endTime:'',
           coverImage:'',
           address: '',
           organizer: '',
-          content:''
+          content:'',
+          validTime:''
         },
         rules: {
           title: [
@@ -92,7 +95,7 @@ export default {
           address:[
             {required:true,message:'请输入活动地点',trigger:'blur'}
           ],
-          startTime:[
+          validTime:[
             {required:true,message:'请选择活动时间',trigger:'blur'}
           ],
           organizer:[
@@ -108,6 +111,8 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.actForm.startTime=this.actForm.validTime[0];
+            this.actForm.endTime=this.actForm.validTime[1];
             this.submitAct().then(res=>{
               this.$http.post("/api/society/submit",this.actForm).then(resp=>{
                 console.log("resp");
@@ -117,7 +122,10 @@ export default {
                 }else{
                   this.$message.error(resp.data.message);
                 }
-            }).catch(reason=>{console.log(reson)})
+            }).catch(reason=>{
+              this.$message.error("发布失败")
+              console.log(reason)
+              })
             },err=>{
               console.log("头像环节失败")
               console.log(err)

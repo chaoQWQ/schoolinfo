@@ -42,7 +42,7 @@
       </el-form>
     </div>
     <p v-if="totalNumbers==0" style="    text-align: center;font-size: x-large;font-style: italic;color: darkgrey;">查询结果为空</p>
-    <infoItem :infoItemData="infoitemData"></infoItem>
+    <infoItem :infoItemData="infoitemData" gotoUrl="/#/compDetail/"></infoItem>
     <div style="text-align: center">
       <el-pagination background 
         @current-change="handleCurrentChange"
