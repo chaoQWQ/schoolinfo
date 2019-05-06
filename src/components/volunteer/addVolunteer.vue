@@ -3,29 +3,47 @@
     <div>
       <breadcrumb></breadcrumb>
       <div style="width: 800px;margin-left: 200px;">
-        <h1 style="text-align:center">社团活动发布</h1>
-        <el-form label-position="right" :model="actForm" :rules="rules" ref="actForm" label-width="120px" class="demo-ruleForm">
-          <el-form-item label="活动名称" prop="title">
-            <el-input v-model="actForm.title"></el-input>
+        <h1 style="text-align:center">志愿服务发布</h1>
+        <el-form label-position="right" :model="vForm" :rules="rules" ref="vForm" label-width="120px" class="demo-ruleForm">
+          <el-form-item label="服务名称" prop="title">
+            <el-input v-model="vForm.title"></el-input>
           </el-form-item>
-          <el-form-item label="活动简介" prop="summary">
-            <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="actForm.summary"></el-input>
+          <el-form-item label="服务地点" prop="address">
+            <el-input v-model="vForm.address"></el-input>
           </el-form-item>
-          <el-form-item label="活动地点" prop="address">
-            <el-input v-model="actForm.address"></el-input>
+          <el-form-item label="服务类别" prop="serviceType">
+              <el-select v-model="vForm.serviceType"  placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name">
+                </el-option>
+              </el-select>
           </el-form-item>
-          <el-form-item label="活动举行时间" prop="validTime">
+          <el-form-item label="招募人数" prop="recruitNumbers">
+            <el-input style="width: 70px;" v-model.number="vForm.recruitNumbers"></el-input>
+            <span> 人</span>
+          </el-form-item>
+          <el-form-item label="招募日期" prop="recruitTime">
+            <el-date-picker
+              v-model="vForm.recruitTime"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="服务时间" prop="serviceTime">
              <el-date-picker
-                v-model="actForm.validTime"
+                v-model="vForm.serviceTime"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 type="datetimerange"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
               </el-date-picker>
-          </el-form-item>
-          <el-form-item label="主办方" prop="organizer">
-            <el-input v-model="actForm.organizer"></el-input>
           </el-form-item>
           <el-form-item label="活动封面图片">
             <el-upload
@@ -37,20 +55,20 @@
               :on-success="handleAvatarSuccess"
               :on-change="handleAvatarChange"
               :auto-upload="false">
-              <img v-if="actForm.coverImage" :src="actForm.coverImage" class="avatar">
+              <img v-if="vForm.coverImage" :src="vForm.coverImage" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>    
-          <el-form-item label="活动详情" prop="content" >
+          <el-form-item label="详情描述" prop="description" >
               <richEditor 
-                v-model="actForm.content"
+                v-model="vForm.description"
                 :disabled="disabled">
               </richEditor>
           </el-form-item>
           
     
           <el-form-item>
-            <el-button type="danger" @click="submitForm('actForm')">立即发布</el-button>
+            <el-button type="danger" @click="submitForm('vForm')">立即发布</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -61,49 +79,68 @@
 </template>
 <script>
 import breadcrumb from '../base/breadcrumb';
-import richEditor from '../base/richTxtEdit'
+import richEditor from '../base/richTxtEdit';
+import localData from '../../utils/local-data.js'
 export default {
-  name:"addSocietyActivity",
+  name:"addVolunteer",
   components:{
     breadcrumb,
     richEditor
   },
    data() {
+     var validateTime = (rule, value, callback) => {
+      if (this.vForm.recruitTime[1]) {
+        if(value[1]<this.vForm.recruitTime[1]){
+          callback(new Error("项目结束时间应晚于招募结束时间!"));
+        }else if(value[0]==value[1]){
+          callback("起止时间不能相同");
+        }
+      } else {
+        callback();
+      }
+    };
       return {
+        options:localData.volunteerServiceTypeList,
         disabled: false,
-        
         avatarfileList:[],
-        actForm: {
+        vForm: {
           title: '',
-          summary:'',
+          serviceType:'',
           startTime:'',
           endTime:'',
+          recruitEndTime:'',
+          recruitStartTime:'',
           coverImage:'',
           address: '',
-          organizer: '',
-          content:'',
-          validTime:''
+          description:'',
+          recruitNumbers: '',
+          serviceTime:'',
+          recruitTime:''
         },
         rules: {
           title: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { max: 30, message: '不超过30 个字符', trigger: 'blur' }
+            { max: 30, message: '不超过20 个字符', trigger: 'blur' }
           ],
-          summary: [
-            { required: true, message: '请输入活动简介', trigger: 'blur' },
-            { min:10, max: 100, message: '请输入至少10个字符，不超过100 个字符', trigger: 'blur' }
+          serviceType: [
+            { required: true, message: '请选择服务类别', trigger: 'blur' },
+          ],
+          recruitNumbers:[
+            { required: true, message: '招募人数不能为空'},
+            { type: 'number', message: '人数必须为数字'}
           ],
           address:[
             {required:true,message:'请输入活动地点',trigger:'blur'}
           ],
-          validTime:[
-            {required:true,message:'请选择活动时间',trigger:'blur'}
+          recruitTime:[
+            {required:true,message:'请选择招募日期',trigger:'blur'}
           ],
-          organizer:[
-            {required:true,message:'请输入主办单位',trigger:'blur'}
+          serviceTime:[
+            {required:true,message:'请选择服务时间',trigger:'blur'},
+            {validator:validateTime, trigger: 'blur'}
           ],
-          content:[
-            {required:true,message:'请输入活动详情',trigger:'blur'}
+          description:[
+            {required:true,message:'请输入详情描述',trigger:'blur'}
           ]
         }
       };
@@ -112,15 +149,18 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.actForm.startTime=this.actForm.validTime[0];
-            this.actForm.endTime=this.actForm.validTime[1];
-            this.submitAct().then(res=>{
-              this.$http.post("/api/society/submit",this.actForm).then(resp=>{
+            this.vForm.startTime=this.vForm.serviceTime[0];
+            this.vForm.endTime=this.vForm.serviceTime[1];
+            this.vForm.recruitStartTime=this.vForm.recruitTime[0];
+            this.vForm.recruitEndTime=this.vForm.recruitTime[1];
+            // this.vForm.serviceType=this.vForm.serviceType.join(",")
+            this.submitVolunteer().then(res=>{
+              this.$http.post("/api/volunteer/submit",this.vForm).then(resp=>{
                 console.log("resp");
                 console.log(resp);
                 if(resp.data.code=="000000"){
-                  this.cleanform("actForm");
-                  this.actForm.coverImage='';
+                  this.cleanform("vForm");
+                  this.vForm.coverImage='';
                   this.$message.success("发布成功");
                 }else{
                   this.$message.error(resp.data.message);
@@ -139,12 +179,12 @@ export default {
           }
         });
       },
-      submitAct(){
+      submitVolunteer(){
         const _this=this
         if(this.avatarfileList.length!=0){
             return new Promise(function(resolve,reject){
             _this.uploadAvatar().then(res=>{
-              _this.actForm.coverImage=res;
+              _this.vForm.coverImage=res;
               resolve(res);
             }).catch(err=>{
               reject(err);
@@ -198,7 +238,7 @@ export default {
             }else{
               fileList=fileList.slice(-1);
               this.avatarfileList=fileList;
-              this.actForm.coverImage = URL.createObjectURL(file.raw);
+              this.vForm.coverImage = URL.createObjectURL(file.raw);
             }
             
           } else {

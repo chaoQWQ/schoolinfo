@@ -1,37 +1,39 @@
 <template>
 <div>
-  <!-- <breadcrumb></breadcrumb> -->
   <div class="content-area">
     <div class="top_tit">
-      <h1>比赛信息</h1>
+      <h1>志愿服务</h1>
     </div>
     <div class="filter">
       <el-form ref="form" :model="form">
         <div class="f_condition">
-          <span>竞赛类型：</span>
+          <span>服务类型：</span>
           <el-select v-model="form.type" multiple collapse-tags placeholder="不限">
             <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.name"></el-option>
           </el-select>
         </div>
         <div class="f_condition">
-          <span>竞赛阶段：</span>
+          <span>项目状态：</span>
           <el-radio-group v-model="form.state">
             <el-radio label="不限"></el-radio>
-            <el-radio label="正在报名"></el-radio>
-            <el-radio label="报名结束"></el-radio>
+            <el-radio label="招募待启动"></el-radio>
+            <el-radio label="招募中"></el-radio>
+            <el-radio label="招募已结束"></el-radio>
+            <el-radio label="已结项"></el-radio>
           </el-radio-group>
         </div>
         <div class="f_condition">
-          <span>竟赛范围：</span>
-          <el-radio-group v-model="form.scope">
+          <span>项目人数：</span>
+          <el-radio-group v-model="form.numbers">
             <el-radio label="不限"></el-radio>
-            <el-radio label="校级"></el-radio>
-            <el-radio label="市级"></el-radio>
-            <el-radio label="国级"></el-radio>
+            <el-radio label="1-10"></el-radio>
+            <el-radio label="11-100"></el-radio>
+            <el-radio label="101-200"></el-radio>
+            <el-radio label="200以上"></el-radio>
           </el-radio-group>
         </div>
         <div class="f_condition">
-          <span>竞赛排序：</span>
+          <span>项目排序：</span>
           <el-radio-group v-model="form.sort">
             <el-radio :label="1">最新</el-radio>
             <el-radio :label="2">热门</el-radio>
@@ -41,8 +43,8 @@
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form>
     </div>
-    <p v-if="totalNumbers==0" style="    text-align: center;font-size: x-large;font-style: italic;color: darkgrey;">查询结果为空</p>
-    <infoItem :infoItemData="infoitemData" gotoUrl="/#/compDetail/"></infoItem>
+    <p v-if="totalNumbers==0" style="text-align: center;font-size: x-large;font-style: italic;color: darkgrey;">查询结果为空</p>
+    <volBox :infoItemData="infoitemData" gotoUrl="/#/volunteerDetail/"></volBox>
     <div style="text-align: center">
       <el-pagination background 
         @current-change="handleCurrentChange"
@@ -57,47 +59,40 @@
 
   <div class="side">
     <div class="fabu">
-      <router-link :to="{name:'addComp'}"></router-link>
+      <router-link :to="{name:'addVolunteer'}"><img class="vImg" src="/static/images/vfb.png"><span style="letter-spacing: 2px;">项目发起</span></router-link>
     </div>
   </div>
-  <el-tooltip placement="top" content="回到顶部">
-    <back-to-top/>
-  </el-tooltip>
-  
 </div>
 </template>
 <script>
-import infoItem from "../base/infoItem";
+import volBox from "../base/volBox";
 import breadcrumb from "../base/breadcrumb";
-import backToTop from "../base/backToTop";
 import localData from '../../utils/local-data.js'
 export default {
-  name: "competition",
+  name: "volunteer",
   data() {
     return {
       form: {
         state: "不限",
-        scope: "不限",
-        sort: 1,
         type: [],
+        sort: 1,
+        numbers:'不限',
         pageNum:1,
-        pageSize:10
+        pageSize:9
       },
       totalNumbers:10,
-      options: localData.compTypeList,
+      options: localData.volunteerServiceTypeList,
       infoitemData: []
-
     };
   },
-  components: {
-    infoItem,
-    breadcrumb,
-    backToTop
+  components:{
+    volBox,
+    breadcrumb
   },
-  methods: {
+  methods:{
     onSubmit() {
       this.form.pageNum=1;
-      this.$http.post("/api/compinfo/competition", this.form).then(resp => {
+      this.$http.post("/api/volunteer/query", this.form).then(resp => {
         this.infoitemData = resp.data.data.pageList;
         this.totalNumbers=resp.data.data.total;
       }).catch(err=>{
@@ -106,13 +101,13 @@ export default {
     },
     handleCurrentChange(val) {
         this.form.pageNum=val;
-        this.$http.post("/api/compinfo/competition", this.form).then(resp => {
+        this.$http.post("/api/volunteer/query", this.form).then(resp => {
           this.infoitemData = resp.data.data.pageList;
           this.totalNumbers=resp.data.data.total;
         });
     }
   },
-  created() {
+  created(){
     this.onSubmit();
   }
 };
@@ -141,22 +136,34 @@ export default {
   color: #898989;
   padding: 2px 4px 2px 4px;
 }
-.fabu {
-    background-image: url("/static/images/fb1.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 104px;
-}
-.fabu:hover {
-    background-image: url("/static/images/fb2.png");
-    cursor: pointer;
-}
-.fabu a {
-    display: block;
-    height: 104px;
-}
 .side{
-  width: 300px;
+  width: 250px;
   float: right;
+  margin-top: 20px;
+}
+.fabu{
+  color: red;
+    font-size: 20px;
+    background-color: blanchedalmond;
+    width: 150px;
+    font-family: cursive;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #a1a1a130;
+}
+.fabu:hover{
+   box-shadow:0px 0px 5px #4c1d1d75;
+}
+.fabu a{
+    display: flex;
+    align-items: center;
+    color: red;
+}
+
+
+.vImg{
+  width: 50px;
+  margin-right: 10px;
 }
 </style>
+

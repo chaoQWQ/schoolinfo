@@ -7,6 +7,12 @@ import addComp from '../components/competition/addComp.vue'
 import addSocietyActivity from '../components/society/addSocietyActivity.vue'
 import societyActivity from '../components/society/societyActivity.vue'
 import actDetail from '../components/society/actDetail.vue'
+import volunteerDetail from '../components/volunteer/volunteerDetail.vue'
+import addVolunteer from '../components/volunteer/addVolunteer.vue'
+import volunteer from '../components/volunteer/volunteer.vue'
+import personalCenter from '../components/personal/personalCenter.vue'
+import personalInfo from '../components/personal/personalInfo.vue'
+import personalSafe from '../components/personal/personalSafe.vue'
 import localData from '../utils/local-data'
 Vue.use(Router)
 
@@ -76,6 +82,47 @@ export default new Router({
         permission:"compinfo:submit",
         navList:localData.routerBreadcrumb.societyActivityInsert.list
       }
-    }
+    },
+    // 志愿活动模块
+    {
+      path:'/volunteer',
+      name:'volunteer',
+      component:volunteer,
+      meta:{
+        requireLogin:true,
+        navList:localData.routerBreadcrumb.volunteerList.list
+      }
+    },
+    {
+      path:'/addVolunteer',
+      name:'addVolunteer',
+      component:addVolunteer,
+      meta:{
+        requireLogin:true,
+        navList:localData.routerBreadcrumb.volunteerInsert.list
+      }
+    },
+    {
+      path:'/volunteerDetail/:id',
+      name:'volunteerDetail',
+      component:volunteerDetail,
+      meta:{
+        requireLogin:true,
+        navList:localData.routerBreadcrumb.volunteerDetail.list
+      }
+    },
+    {
+      path:'/personalCenter',
+      name:'personalCenter',
+      redirect:'/personalCenter/personalInfo',
+      component:personalCenter,
+      meta:{
+        requireLogin:true
+      },
+      children:[
+        { path: '/personalCenter/personalInfo', component: personalInfo},
+        { path: '/personalCenter/personalSafe', component: personalSafe},
+      ]
+    },
   ]
 })

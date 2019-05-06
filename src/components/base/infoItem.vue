@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="view-msg">
-        <span>{{item.createTime.slice(0,-3)}}</span>&nbsp&nbsp
+        <span>{{item.createTime.slice(0,-3)}}</span>&nbsp;&nbsp;
         <span class="icon-eye"></span>
         <span class="pv">{{ item.viewNumbers }}</span>
         <span class="icon-commenting-o"></span>

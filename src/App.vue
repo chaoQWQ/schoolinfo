@@ -22,16 +22,16 @@
                 <el-menu-item index="1">首页</el-menu-item>
               </el-col>
               <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-                <el-menu-item index="2">社团活动</el-menu-item>
+                <el-menu-item index="2">比赛信息</el-menu-item>
               </el-col>
               <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-                <el-menu-item index="3">志愿活动</el-menu-item>
+                <el-menu-item index="3">社团活动</el-menu-item>
               </el-col>
               <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-                <el-menu-item index="4">比赛信息</el-menu-item>
+                <el-menu-item index="4">志愿服务</el-menu-item>
               </el-col>
               <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
-                <el-menu-item index="5">小道消息</el-menu-item>
+                <el-menu-item index="5">个人中心</el-menu-item>
               </el-col>
               <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" :offset="11">
                 <!-- <a v-if="!islogin" href="#" @click="loginFormVisible = true; return false;"> -->
@@ -48,7 +48,7 @@
                   </div>
                   <div class="g-user-card">
                     <ul class="card-inner">
-                      <li><span class="icon-user"> 个人中心</span></li>
+                      <li @click="jumpToPersonal"><span class="icon-user"> 个人中心</span></li>
                       <li @click="logout"><span class="icon-exit"> 退出</span></li>
                     </ul>
                   </div>
@@ -127,6 +127,7 @@
 
 <script>
 import pagefooter from "./components/pagefooter";
+import md5 from 'js-md5';
 export default {
   name: "App",
   data() {
@@ -248,16 +249,16 @@ export default {
           this.$router.push("/home");
           break;
         case "2":
-          this.$router.push("/societyActivity");
-          break;
-        case "3":
-          this.$router.push("/home");
-          break;
-        case "4":
           this.$router.push("/competition");
           break;
+        case "3":
+          this.$router.push("/societyActivity");
+          break;
+        case "4":
+          this.$router.push("/volunteer");
+          break;
         case "5":
-          this.$router.push("/home");
+          this.$router.push("/personalCenter");
           break;
       }
     },
@@ -268,8 +269,11 @@ export default {
     login(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$http.post("/api/sys/login", this.form).then(resp => {
-            //登录失败,先不讨论
+          this.$http.post("/api/sys/login", {
+            username: this.form.username,
+            password: md5(this.form.password)
+            }).then(resp => {
+            //登录失败,先不讨论n
             if (resp.data.code != "000000") {
               this.$message.error(resp.data.message);
               //登录成功
@@ -319,6 +323,9 @@ export default {
         this.$router.push("/home");
         this.cleanform("loginform");
       })
+    },
+    jumpToPersonal(){
+      this.$router.push('personalCenter');
     }
   },
   components: {
@@ -338,6 +345,7 @@ export default {
 .mainContent {
   display: flow-root;
   margin-bottom: 100px;
+  background-color: #f5f5f5;
 }
 .abiaoqian {
   text-decoration: none;
@@ -352,6 +360,7 @@ export default {
 }
 .headImg {
   height: 60px;
+  width: 60px;
   float: right;
   margin-top: 1px;
   margin-right: 20px;

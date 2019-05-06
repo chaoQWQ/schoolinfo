@@ -24,20 +24,23 @@
         try {
             if (!localStorage) {
                 return false;
+            }else{
+              var cacheVal = localStorage.getItem(key);
+              var result = JSON.parse(cacheVal);
+              var now = new Date() - 1;
+              //缓存不存在
+              if (!result) {
+                  return null;
+              }
+              //缓存过期
+              else if (now > result.exp) {
+                  this.remove(key);
+                  return "";
+              }else{
+                return result.val;
+              }
             }
-            var cacheVal = localStorage.getItem(key);
-            var result = JSON.parse(cacheVal);
-            var now = new Date() - 1;
-            //缓存不存在
-            if (!result) {
-                return null;
-            }
-            //缓存过期
-            if (now > result.exp) {
-                this.remove(key);
-                return "";
-            }
-            return result.val;
+            
         } catch (e) {
             this.remove(key);
             return null;

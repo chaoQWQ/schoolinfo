@@ -22,7 +22,7 @@
 
   <div class="side">
     <div class="fabu">
-      <router-link :to="{name:'addSocietyActivity'}"><img class="actImg" src="/static/images/actFont.png"></router-link>
+      <router-link :to="{name:'addSocietyActivity'}"><img class="actImg" src="/static/images/acfont2.png"></router-link>
     </div>
   </div>
   <el-tooltip placement="top" content="回到顶部">
@@ -117,10 +117,10 @@ export default {
     background-repeat: no-repeat;
     background-size: 300px 250px;
 }
-/* .fabu:hover {
-    background-image: url("/static/images/fb2.png");
+.fabu:hover {
+    background-image: url("/static/images/act2.png");
     cursor: pointer;
-} */
+}
 .fabu a {
     display: block;
     height: 104px;

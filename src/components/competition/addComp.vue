@@ -163,6 +163,10 @@ export default {
                 console.log(resp);
                 if(resp.data.code=="000000"){
                   // this.$router.pust("/success")
+                  this.cleanform("ruleForm");
+                  this.ruleForm.coverImage='';
+                  // this.$refs.attach.clearFiles;
+                  this.attachFileList=[];
                   this.$message.success("提交成功，等待审核");
                 }else{
                   this.$message.error(resp.data.message);
@@ -323,7 +327,11 @@ export default {
           }
         }
 
-      }
+      },
+    cleanform(ref) {
+      this.$refs[ref].clearValidate();
+      this.$refs[ref].resetFields();
+    },
 
     }
 
@@ -341,7 +349,7 @@ export default {
     border-color: #409EFF;
   }
   .avatar-uploader-icon {
-    background-color: ghostwhite;
+    background-color: #c4cfd745;
     font-size: 28px;
     color: #8c939d;
     width: 178px;
