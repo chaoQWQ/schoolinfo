@@ -58,12 +58,16 @@ instance.interceptors.response.use(
     },
     // 请求失败
     error => {
-        const { response } = error;
-        if (response) {
-            // 请求已发出，但是不在2xx的范围 
-            // errorHandle(response.status, response.data.message);
-            return Promise.reject(response.data.error.message);
+      
+      if (error.response) {
+        switch (error.response.status) {
+            case 401:
+                errorTip("不具备权限");
+                context.$router.push("/home")
+                break;
         }
+    }
+    return Promise.reject(error.response.data)
     });
 
 

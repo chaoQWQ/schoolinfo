@@ -4,7 +4,7 @@
       <div id="header">
         <section class="top">
           <div>
-            <img src="../static/images/name3.png">
+            <img src="../static/images/webname.png">
           </div>
         </section>
         <section class="navmenu">
@@ -34,12 +34,12 @@
                 <el-menu-item index="5">个人中心</el-menu-item>
               </el-col>
               <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" :offset="11">
-                <!-- <a v-if="!islogin" href="#" @click="loginFormVisible = true; return false;"> -->
+                <!-- <a v-if="!islogin" href="#" @click="dialogVisible = true; return false;"> -->
                 <div v-if="loginStatus!=true">
                   <img
                     class="loginImg"
                     src="../static/images/user.png"
-                    @click="loginFormVisible = true;"
+                    @click="dialogVisible = true;"
                   >
                 </div>
                 <div v-else class="user-card-box">
@@ -67,14 +67,14 @@
     <pagefooter></pagefooter>
 
     <el-dialog
-      title="登录"
+      :title="formTitle"
       :show-close="false"
-      :visible.sync="loginFormVisible"
+      :visible.sync="dialogVisible"
       :close-on-click-modal="false"
       width="20%"
     >
       <!-- 登录 -->
-      <div v-if="signFormVisible==false">
+      <div v-if="formVisible==1">
         <el-form label-position="right" :model="form" :rules="rules" ref="loginform" @keyup.enter.native="login('loginform')">
           <el-form-item label="用户名:" label-width="80px" prop="username">
             <el-input placeholder="请输入用户名" v-model="form.username" autocomplete="off"></el-input>
@@ -88,23 +88,25 @@
           </el-form-item>
           <div align="center">
             <span>
-              <a href="#" class="abiaoqian">忘记密码？</a>
+              <a href="#" 
+               @click="formVisible=3;formTitle='找回密码';cleanform('loginform')"
+              class="abiaoqian">忘记密码？</a>
               <a
                 href="#"
                 class="abiaoqian"
-                @click="signFormVisible=true;cleanform('loginform')"
+                @click="formVisible=2;formTitle='注册';cleanform('loginform')"
               >还没账号,注册一个</a>
             </span>
           </div>
         </el-form>
         <div align="center" style="margin-top:10px;">
-          <el-button @click="loginFormVisible = false;cleanform('loginform')">取 消</el-button>
+          <el-button @click="dialogVisible = false;cleanform('loginform')">取 消</el-button>
           <el-button type="primary" @click="login('loginform')">登 录</el-button>
         </div>
       </div>
 
       <!-- 注册 -->
-      <div v-if="signFormVisible">
+      <div v-if="formVisible==2">
         <el-form label-position="right" :model="s_form" :rules="s_rules" ref="signform">
           <el-form-item label="用户名:" label-width="100px" prop="s_username">
             <el-input v-model="s_form.s_username" autocomplete="off"></el-input>
@@ -117,17 +119,48 @@
           </el-form-item>
         </el-form>
         <div align="center">
-          <el-button @click="signFormVisible = false; cleanform('signform')">取 消</el-button>
+          <el-button @click="formVisible = 1;formTitle='登录'; cleanform('signform')">取 消</el-button>
           <el-button type="primary" @click="signup('signform')">注 册</el-button>
         </div>
       </div>
+
+      <!-- 找回密码 -->
+      <div v-if="formVisible==3">
+        <el-form label-position="right" :model="findForm" :rules="f_rules" ref="findForm" >
+          <el-form-item label="用户名:" label-width="100px" prop="fusername">
+            <el-row>
+              <el-col :span="18">
+                 <el-input v-model="findForm.fusername" autocomplete="off"></el-input>
+              </el-col>
+              <el-col :span="6">
+                <el-button style="margin-left:10px" type="warning" @click="sendEmail"  class="yanzheng"  :disabled="!show">
+                  <span v-show="show">验证</span>
+                  <span v-show="!show" class="count">{{count}} s</span>
+                </el-button>
+              </el-col>
+            </el-row>
+           
+          </el-form-item>
+          <el-form-item label="邮箱验证码:" label-width="100px" prop="authCode">
+            <el-col :span="8">
+              <el-input v-model="findForm.authCode"></el-input>
+            </el-col>
+          </el-form-item>
+        <div align="center" style="margin-top:10px;">
+          <el-button @click="formVisible = 1;formTitle='登录';cleanform('findForm')">取 消</el-button>
+          <el-button type="primary" @click="findPassword('findForm')">重置密码</el-button>
+        </div>
+        </el-form>
+      </div>
     </el-dialog>
+   
   </div>
 </template>
 
 <script>
 import pagefooter from "./components/pagefooter";
 import md5 from 'js-md5';
+const TIME_COUNT = 120;
 export default {
   name: "App",
   data() {
@@ -158,10 +191,33 @@ export default {
           }
         });
     };
+    var checkFUserName = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入用户名"));
+      }
+      this.$http
+        .get("/api/sys/checkFUserName", {
+          params: {
+            username: value
+          }
+        })
+        .then(resp => {
+          if (resp.data.code == "000000") {
+            callback();
+          } else {
+            callback(new Error(resp.data.message));
+          }
+        });
+    };
     return {
+      show: true,
+      count: '',
+      timer: null,
       activeIndex: "1",
-      loginFormVisible: false,
-      signFormVisible: false,
+      formTitle:'登录',
+
+      dialogVisible: false,
+      formVisible: 1,
       form: {
         username: "",
         password: ""
@@ -170,6 +226,10 @@ export default {
         s_username: "",
         s_password: "",
         re_password: ""
+      },
+      findForm:{
+        fusername:'',
+        authCode:''
       },
       rules: {
         username: [
@@ -200,7 +260,7 @@ export default {
             message: "长度在 5 到 16 个字符"
           },
           {
-            pattern: /^[a-zA-Z]\w{1,5}$/,
+            pattern: /^[a-zA-Z]\w{4,16}$/,
             message: "以字母开头，长度在5-16之间， 只能包含字符、数字和下划线"
           }
         ],
@@ -227,7 +287,22 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      f_rules: {
+        fusername:[
+          {validator:checkFUserName,trigger:'blur'}
+        ],
+        // email: [
+        //   {validator:checkEmail,trigger: 'blur'}
+        // ],
+        authCode: [
+          {
+            required: true,
+            message: "请输入验证码",
+            trigger: "blur"
+          }
+        ]
+      },
     };
   },
   computed: {
@@ -241,7 +316,7 @@ export default {
   methods: {
     openLoginBox(){
       this.cleanform('loginform')
-      loginFormVisible = true;
+      dialogVisible = true;
     },
     handleSelect(key, keyPath) {
       switch (key) {
@@ -281,14 +356,12 @@ export default {
               this.cleanform("loginform");
               //设置Vuex登录标志为true，默认userLogin为false
               this.$store.dispatch("setLoginFlag", true);
-              console.log(this.$store.state.currentUser);
               this.$store.dispatch("setUser", resp.data.data);
-              console.log(this.$store.state.currentUser);
               //Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
               //我们设置一个名为Flag，值为isLogin的字段，作用是如果Flag有值且为isLogin的时候，证明用户已经登录了。
               this.$localstorage.put("Flag", "isLogin");
               this.$localstorage.put("User",resp.data.data)
-              this.loginFormVisible = false;
+              this.dialogVisible = false;
               this.$message.success("登录成功");
               //登录成功后跳转到指定页面
               this.$router.push("/home");
@@ -313,6 +386,54 @@ export default {
           this.$message.error("别着急，先把信息填了来！");
         }
       });
+    },
+    sendEmail(){
+      this.$refs["findForm"].validateField('fusername',(error)=>{
+        if(!error){
+          if (!this.timer) {
+                this.count = TIME_COUNT;
+                this.show = false;
+                this.timer = setInterval(() => {
+                  if (this.count > 0 && this.count <= TIME_COUNT) {
+                    this.count--;
+                  } else {
+                    this.show = true;
+                    clearInterval(this.timer);
+                    this.timer = null;
+                  }
+                }, 1000)
+          }
+          this.$http.get('/api/sys/sendFindEmail',{
+            params:{
+              username:this.findForm.fusername
+            }
+          }).then(resp=>{
+            if(resp.data.code='000000'){
+              this.$message.success("邮箱已发送")
+            }
+          })
+        }else{
+          console.log(error)
+        }
+      })
+
+    },
+    findPassword(formName){
+      this.$refs[formName].validate(valid=>{
+        if(valid){
+          this.$http.get("/api/sys/findPassword",{
+            params:{
+              username:this.findForm.fusername,
+              authCode:this.findForm.authCode
+          }}).then(resp=>{
+            if(resp.data.code=="000000"){
+              this.$message.success("重置密码已发送给邮箱");
+            }else{
+              this.$message.error(resp.date.message)
+            }
+          })
+        }
+      })
     },
 
     logout(){

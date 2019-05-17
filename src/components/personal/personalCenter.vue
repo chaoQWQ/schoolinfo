@@ -8,14 +8,28 @@
     <el-row >
       <el-col :span="3">
         <el-menu
+        style="height:700px;"
         default-active="1"
         class="el-menu-vertical-demo"
         @select="handleSelect"
         >
-          <el-menu-item style="padding:0 10px" index="1"><i class="el-icon-user"></i>个人资料</el-menu-item>
-          <el-menu-item style="padding:0 10px" index="2"><i class="el-icon-position"></i>我的发布</el-menu-item>
-          <el-menu-item style="padding:0 10px" index="3"><i class="el-icon-star-off"></i>我的收藏</el-menu-item>
-          <el-menu-item style="padding:0 10px" index="4"><i class="el-icon-s-tools"></i>账户安全</el-menu-item>
+          <el-menu-item style="padding:0 10px" index="1"><i class="el-icon-user"></i><span slot="title">个人资料</span></el-menu-item>
+          <el-menu-item v-if="userType=='vadmin'||userType=='sadmin'||userType=='cadmin'" style="padding:0 10px" index="2"><i class="el-icon-position"></i><span slot="title">我的发布</span></el-menu-item>
+          <el-menu-item style="padding:0 10px" index="3"><i class="el-icon-message-solid"></i><span slot="title">我的消息</span></el-menu-item>
+          <el-menu-item style="padding:0 10px" index="4"><i class="el-icon-s-tools"></i><span slot="title">账户安全</span></el-menu-item>
+          <el-submenu v-if="userType=='super'" index="5">
+            <template slot="title">
+              <i style="margin-left: 15px;" class="el-icon-menu"></i>
+              <span>后台管理</span>
+            </template>
+            <el-menu-item-group>
+              <!-- <template slot="title">分组一</template> -->
+              <el-menu-item index="5-1">发布审核</el-menu-item>
+              <el-menu-item index="5-2">用户管理</el-menu-item>
+              <el-menu-item index="5-3">权限管理</el-menu-item>
+              <el-menu-item index="5-4">角色管理</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
         </el-menu>
       </el-col>
       <el-col :span="21">
@@ -33,20 +47,38 @@
 <script>
 export default {
   name:"personalCenter",
+  computed:{
+    userType(){
+      return this.$store.getters.currentUser.userType
+    }
+  },
   methods:{
     handleSelect(key, keyPath) {
+      console.log(key)
       switch (key) {
         case "1":
           this.$router.push("/personalCenter/personalInfo");
           break;
         case "2":
-          this.$router.push("/personalCenter");
+          this.$router.push("/personalCenter/personalRelease");
           break;
         case "3":
-          this.$router.push("/personalCenter");
+          this.$router.push("/personalCenter/personalMessage");
           break;
         case "4":
           this.$router.push("/personalCenter/personalSafe");
+          break;
+        case "5-1":
+          this.$router.push("/personalCenter/infoAudit");
+          break;
+        case "5-2":
+          this.$router.push("/personalCenter/userManage");
+          break;
+        case "5-3":
+          this.$router.push("/personalCenter/permissionManage");
+          break;
+        case "5-4":
+          this.$router.push("/personalCenter/roleManage");
           break;
       }
     }

@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import global from './api/common/global'
 import localstorageUtil from './api/common/localstorageUtil'
 import http from './api/common/http'
+import infiniteScroll from 'vue-infinite-scroll'
 
 library.add(faCoffee)
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -23,7 +24,7 @@ Vue.prototype.$localstorage=localstorageUtil
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 Vue.use(elementUI)
-
+Vue.use(infiniteScroll)
 Vue.prototype.$global=global
 //路由跳转后，页面回到顶部
 router.afterEach((to,from)=>{

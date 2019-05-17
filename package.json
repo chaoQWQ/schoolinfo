@@ -21,9 +21,11 @@
     "axios": "^0.18.0",
     "element-ui": "^2.8.2",
     "js-md5": "^0.7.3",
+    "moment": "^2.24.0",
     "sass-loader": "^7.1.0",
     "tinymce": "^5.0.4",
     "vue": "^2.6.6",
+    "vue-infinite-scroll": "^2.0.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.0"
   },

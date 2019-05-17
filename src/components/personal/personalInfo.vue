@@ -119,6 +119,10 @@ export default {
       this.$store.state.currentUser.mobile=user.mobile;
       this.$store.state.currentUser.qq=user.qq;
       this.$store.state.currentUser.privacy=user.privacy;
+      console.log(this.$store.state.currentUser)
+      console.log(this.$store.getters.currentUser)
+      this.$localstorage.put("User",this.$store.getters.currentUser)
+      console.log(this.$localstorage.get("User"))
     },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {

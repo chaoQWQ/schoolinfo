@@ -106,6 +106,9 @@ export default new Vuex.Store({
     changeBreadcumb (state, value) {
       state.breadcumb = value
     },
+    changeUserEmail(state,email){
+      state.currentUser.email=email
+    }
   },
 
   // 应用mutations

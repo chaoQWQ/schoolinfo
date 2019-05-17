@@ -154,24 +154,19 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.submitComp().then(res=>{
-              // if(res!="xox"){
-              //   this.ruleForm.coverImage=res[0];
-              //   this.ruleForm.attachUrl=JSON.stringify(res[1]);
-              // }
+
               this.$http.post("/api/compinfo/submit",this.ruleForm).then(resp=>{
                 console.log("resp");
                 console.log(resp);
                 if(resp.data.code=="000000"){
-                  // this.$router.pust("/success")
                   this.cleanform("ruleForm");
                   this.ruleForm.coverImage='';
-                  // this.$refs.attach.clearFiles;
                   this.attachFileList=[];
                   this.$message.success("提交成功，等待审核");
                 }else{
                   this.$message.error(resp.data.message);
                 }
-            }).catch(reason=>{console.log(reson)})
+            }).catch(reason=>{console.log(reason)})
             },err=>{
               console.log("头像与附件上传环节失败")
               console.log(err)

@@ -27,15 +27,15 @@
           <div class="competition_country">
             <infobox
             topname='志愿服务'
-            tourl='localhost:9090/detail'
-            :infolist="infodata">
+            tourl='/#/volunteerDetail'
+            :infolist="infodata[2]">
             </infobox>
           </div>
           <div class="competition_school">
             <infobox
             topname='社团活动'
-            tourl='localhost:9090/detail'
-            :infolist="infodata">
+            tourl='/#/actDetail'
+            :infolist="infodata[3]">
             </infobox>
           </div>
         </div>

@@ -12,7 +12,13 @@ import addVolunteer from '../components/volunteer/addVolunteer.vue'
 import volunteer from '../components/volunteer/volunteer.vue'
 import personalCenter from '../components/personal/personalCenter.vue'
 import personalInfo from '../components/personal/personalInfo.vue'
+import personalRelease from '../components/personal/personalRelease.vue'
 import personalSafe from '../components/personal/personalSafe.vue'
+import personalMessage from '../components/personal/personalMessage.vue'
+import infoAudit from '../components/back/infoAudit.vue'
+import userManage from '../components/back/userManage.vue'
+import roleManage from '../components/back/roleManage.vue'
+import permissionManage from '../components/back/permissionManage.vue'
 import localData from '../utils/local-data'
 Vue.use(Router)
 
@@ -79,7 +85,7 @@ export default new Router({
       component:addSocietyActivity,
       meta:{
         requireLogin:true,
-        permission:"compinfo:submit",
+        permission:"society:submit",
         navList:localData.routerBreadcrumb.societyActivityInsert.list
       }
     },
@@ -99,6 +105,7 @@ export default new Router({
       component:addVolunteer,
       meta:{
         requireLogin:true,
+        permission:"volunteer:submit",
         navList:localData.routerBreadcrumb.volunteerInsert.list
       }
     },
@@ -111,17 +118,24 @@ export default new Router({
         navList:localData.routerBreadcrumb.volunteerDetail.list
       }
     },
+    // 个人中心&后台管理
     {
       path:'/personalCenter',
       name:'personalCenter',
       redirect:'/personalCenter/personalInfo',
       component:personalCenter,
-      meta:{
-        requireLogin:true
+      meta:{                        
+        requireLogin:true   
       },
       children:[
-        { path: '/personalCenter/personalInfo', component: personalInfo},
+        { path: '/personalCenter/personalInfo', component: personalInfo,meta:{requireLogin:true}},
+        { path: '/personalCenter/personalMessage', component: personalMessage},
         { path: '/personalCenter/personalSafe', component: personalSafe},
+        { path: '/personalCenter/personalRelease', component: personalRelease},
+        { path: '/personalCenter/infoAudit', component: infoAudit,meta:{permission:'back:manage'}},
+        { path: '/personalCenter/userManage', component: userManage,meta:{permission:'back:manage'}},
+        { path: '/personalCenter/roleManage', component: roleManage,meta:{permission:'back:manage'}},
+        { path: '/personalCenter/permissionManage', component: permissionManage,meta:{permission:'back:manage'}}
       ]
     },
   ]

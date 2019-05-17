@@ -250,8 +250,10 @@ export default {
         if(valid){
           this.$http.post('/api/sys/bindEmail',this.emailForm).then(resp=>{
             if(resp.data.code='000000'){
-
-              this.$store.state.currentUser.email=this.emailForm.bemail;
+              let user =this.$store.getters.currentUser
+              user.email=this.emailForm.bemail
+              this.$localstorage.put("User",user)
+              this.$store.commit("changeUserEmail",this.emailForm.bemail );
               this.cleanform('emailForm')
               this.$message.success("绑定成功");
               this.emailFormVisible=false;
